@@ -60,15 +60,16 @@ object UserRecordAnalysis {
 
     val ips = validRecords.select("username","ip").groupBy("username","ip").count().createOrReplaceTempView("d")
 
-    spark.sql("select c.username, c.agent, c.count, count(d.ip) as ip from c, d where c.username=d.username group by c.username, c.agent, c.count").createOrReplaceTempView("e")
+    spark.sql("select c.*, count(d.ip) as ip from c, d where c.username=d.username group by c.username, c.agent, c.count").createOrReplaceTempView("e")
 
     val events = validRecords.select("username","event").groupBy("username","event").count().createOrReplaceTempView("f")
 
-    spark.sql("select e.username, e.agent, e.count, e.ip, count(f.event) as event from e, f where e.username=f.username group by e.username, e.agent, e.count, e.ip").createOrReplaceTempView("g")
+    spark.sql("select e.*, count(f.event) as event from e, f where e.username=f.username group by e.username, e.agent, e.count, e.ip").createOrReplaceTempView("g")
 
     val event_types = validRecords.select("username", "event_type").groupBy("username", "event_type").count().createOrReplaceTempView("h")
 
-    val finalTable = spark.sql("select g.*, count(h.event_type) as event_type from g,h where g.username=h.username group by g.username,g.agent,g.count,g.ip,g.event")
+    val finalTable = spark.sql("select g.*, count(h.event_type) as event_type, now() as create_time from g,h where g.username=h.username group by g.username,g.agent,g.count,g.ip,g.event")
+
     finalTable.write.mode(SaveMode.Append).jdbc(jdbcUrl, "bigfouranalysis.user_records", connectProperties)
 
 
