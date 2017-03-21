@@ -1,6 +1,6 @@
-package bigfouranalysis.config;
+package com.huangshihe.analysisweb.config;
 
-import bigfouranalysis.controller.MainController;
+import com.huangshihe.analysisweb.controller.MainController;
 import com.jfinal.config.*;
 import com.jfinal.kit.PropKit;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
@@ -21,7 +21,7 @@ public class MainConfig extends JFinalConfig {
 
     @Override
     public void configRoute(Routes routes) {
-        routes.setBaseViewPath("/WEB-INF/views");
+        routes.setBaseViewPath("/WEB-INF/views/");
         routes.add("/", MainController.class);
 
     }

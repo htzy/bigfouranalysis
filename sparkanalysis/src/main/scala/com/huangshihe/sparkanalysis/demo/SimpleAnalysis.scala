@@ -3,6 +3,7 @@ package com.huangshihe.sparkanalysis.demo
 import java.util.Properties
 
 import org.apache.spark.sql.{SaveMode, SparkSession}
+import org.apache.spark.sql.types._
 
 /**
   * Created by root on 3/21/17.
@@ -27,10 +28,10 @@ object SimpleAnalysis {
     val userOperates = df.groupBy("username").count()
     userOperates.write.mode(SaveMode.Append).jdbc(jdbcUrl, "bigfouranalysis.simple", connectProperties)
 
-//    val schema = StructType(StructField("username", StringType)::StructField("count", LongType)::Nil)
-//    // if you want to change schema
-//    val userOperatesTable = spark.sqlContext.createDataFrame(userOperates.rdd, schema)
-//    userOperatesTable.write.mode(SaveMode.Append).jdbc(jdbcUrl, "bigfouranalysis.simpleUser", connectProperties)
+    val schema = StructType(StructField("username", StringType)::StructField("count", LongType)::Nil)
+    // if you want to change schema
+    val userOperatesTable = spark.sqlContext.createDataFrame(userOperates.rdd, schema)
+    userOperatesTable.write.mode(SaveMode.Append).jdbc(jdbcUrl, "bigfouranalysis.simpleUser", connectProperties)
   }
 
 }
