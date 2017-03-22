@@ -4,6 +4,8 @@ import com.huangshihe.analysisweb.model.UserRecordPer;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
 
+import java.util.List;
+
 /**
  * Created by huangshihe on 3/22/17.
  */
@@ -50,5 +52,27 @@ public class MainService {
                 (user.getLong("count").intValue() + 0.0) / total.getLong("count").intValue(),
                 username
         );
+    }
+
+    public String getTopUserRecords() {
+        String userSql = " select username, count from user_records, "
+                + " (select create_time from user_records order by create_time desc limit 1) as t"
+                + " where user_records.create_time=t.create_time order by count desc limit 10 ";
+        List<Record> recordList = Db.find(userSql);
+        StringBuilder res = new StringBuilder("[");
+        for (Record record : recordList) {
+            res.append("['");
+            res.append(record.getStr("username"));
+            res.append("',");
+            res.append(record.getLong("count"));
+            res.append("],");
+        }
+        if (res.lastIndexOf(",") > 0) {
+            res = res.replace(res.length() - 1, res.length(), "]");
+        } else {
+            res.append("]");
+        }
+        System.out.println(res.toString());
+        return res.toString();
     }
 }
