@@ -23,6 +23,15 @@ public class UserRecordPer {
         this.count = count;
     }
 
+    public UserRecordPer(double agent, double ip, double event, double event_type, double count, String username){
+        this.agent = agent;
+        this.ip = ip;
+        this.event = event;
+        this.event_type = event_type;
+        this.count = count;
+        this.username = username;
+    }
+
     public double getAgent() {
         return agent;
     }

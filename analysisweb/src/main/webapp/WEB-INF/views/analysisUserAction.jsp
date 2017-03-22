@@ -8,7 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>${username}'s action analysis</title>
+    <title>${record.username}'s action analysis</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -23,7 +23,6 @@
 <body>
 
 <div id="container" style="min-width: 400px; max-width: 600px; height: 400px; margin: 0 auto"></div>
-${record.agent}, ${record.ip}, ${record.event}, ${record.event_type}, ${record.count}
 </body>
 <script type="text/javascript">
     $(function () {
@@ -33,14 +32,14 @@ ${record.agent}, ${record.ip}, ${record.event}, ${record.event_type}, ${record.c
                 type: 'line'
             },
             title: {
-                text: '${username}数据分析',
+                text: '${record.username}数据统计',
                 x: -80
             },
             pane: {
                 size: '80%'
             },
             xAxis: {
-                categories: ['操作数', '1', '2', '3','4', '5'],
+                categories: ['ip', 'count', 'event', 'event_type','agent'],
                 tickmarkPlacement: 'on',
                 lineWidth: 0
             },
@@ -60,12 +59,12 @@ ${record.agent}, ${record.ip}, ${record.event}, ${record.event_type}, ${record.c
                 layout: 'vertical'
             },
             series: [{
-                name: '平均比例',
-                data: [${total}, 0.59, 900, 750, 970, 300],
+                name: '平均占比',
+                data: [${total.ip}, ${total.count}, ${total.event}, ${total.event_type}, ${total.agent}],
                 pointPlacement: 'on'
             }, {
-                name: '${username}',
-                data: [1615, 690, 980, 810, 560, 140],
+                name: '${record.username}占比',
+                data: [${record.ip}, ${record.count}, ${record.event}, ${record.event_type}, ${record.agent}],
                 pointPlacement: 'on'
             }]
         });

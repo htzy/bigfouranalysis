@@ -12,16 +12,6 @@ import java.util.List;
  */
 public class MainService {
 
-//    public Record getUserRecordsPer(String username) {
-//
-//        try {
-//            Record record = Db.findFirst("select * from user_records where username=? order by create_time desc", username);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return record;
-//    }
-
     public UserRecordPer getTotalAvgPer() {
         String avgSql =
                 "select avg(agent) as agent, avg(count) as count, avg(ip) as ip, avg(event) as event, avg(event_type) as event_type"
@@ -44,4 +34,24 @@ public class MainService {
         );
     }
 
+    /**
+     * 取得个人/总 的百分比
+     *
+     * @param username
+     * @return
+     */
+    public UserRecordPer getUserRecordsPer(String username) {
+        String userSql = "select * from user_records where username=? order by create_time desc";
+        Record user = Db.findFirst(userSql, username);
+        String totalSql = "select * from user_records_total order by create_time desc";
+        Record total = Db.findFirst(totalSql);
+        return new UserRecordPer(
+                (user.getLong("agent").intValue() + 0.1) / total.getLong("agent").intValue(),
+                (user.getLong("ip").intValue() + 0.1) / total.getLong("ip").intValue(),
+                (user.getLong("event").intValue() + 0.1) / total.getLong("event").intValue(),
+                (user.getLong("event_type").intValue() + 0.1) / total.getLong("event_type").intValue(),
+                (user.getLong("count").intValue() + 0.1) / total.getLong("count").intValue(),
+                username
+        );
+    }
 }
