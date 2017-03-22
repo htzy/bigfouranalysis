@@ -4,11 +4,8 @@ import com.huangshihe.analysisweb.model.UserRecordPer;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
 
-import java.util.Date;
-import java.util.List;
-
 /**
- * Created by root on 3/22/17.
+ * Created by huangshihe on 3/22/17.
  */
 public class MainService {
 
@@ -46,11 +43,11 @@ public class MainService {
         String totalSql = "select * from user_records_total order by create_time desc";
         Record total = Db.findFirst(totalSql);
         return new UserRecordPer(
-                (user.getLong("agent").intValue() + 0.1) / total.getLong("agent").intValue(),
-                (user.getLong("ip").intValue() + 0.1) / total.getLong("ip").intValue(),
-                (user.getLong("event").intValue() + 0.1) / total.getLong("event").intValue(),
-                (user.getLong("event_type").intValue() + 0.1) / total.getLong("event_type").intValue(),
-                (user.getLong("count").intValue() + 0.1) / total.getLong("count").intValue(),
+                (user.getLong("agent").intValue() + 0.0) / total.getLong("agent").intValue(),
+                (user.getLong("ip").intValue() + 0.0) / total.getLong("ip").intValue(),
+                (user.getLong("event").intValue() + 0.0) / total.getLong("event").intValue(),
+                (user.getLong("event_type").intValue() + 0.0) / total.getLong("event_type").intValue(),
+                (user.getLong("count").intValue() + 0.0) / total.getLong("count").intValue(),
                 username
         );
     }
