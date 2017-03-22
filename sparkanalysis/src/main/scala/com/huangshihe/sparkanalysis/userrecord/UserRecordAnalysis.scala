@@ -30,28 +30,14 @@ object UserRecordAnalysis {
   connectProperties.put("password", "root")
   connectProperties.put("driver", "com.mysql.jdbc.Driver")
 
-  //  // 在数据库中增加一个字段（times），自增，用于区分是否属于同一次统计。
-  //  val userRecordSchema = StructType(StructField("agent", StringType)
-  //    :: StructField("course_id", StringType)
-  //    :: StructField("event", StringType)
-  //    :: StructField("event_type", StringType)
-  //    :: StructField("username", StringType)
-  //    :: StructField("count", StringType) :: Nil)
-
-
   def main(args: Array[String]): Unit = {
-//        analysis()
+    analysis()
     analysisTotal()
-    // count user operates
-    //    val userOperates = df.groupBy("username").count()
-    //    userOperates.write.mode(SaveMode.Overwrite).jdbc(jdbcUrl, "bigfouranalysis.user_record", connectProperties)
-    //
-    //
-    //    // if you want to change schema
-    //    val userOperatesTable = spark.sqlContext.createDataFrame(userOperates.rdd, userRecordSchema)
-    //    userOperatesTable.write.mode(SaveMode.Append).jdbc(jdbcUrl, "bigfouranalysis.simpleUser", connectProperties)
   }
 
+  /**
+    * 分析统计内容：对于每个人出现的agent,ip,event,event_type出现的类别进行统计
+    */
   def analysis(): Unit = {
     val validRecords = getValidUserRecords
     val agents = validRecords.select("username", "agent").groupBy("username", "agent").count().createOrReplaceTempView("b")
@@ -103,6 +89,9 @@ object UserRecordAnalysis {
     //    })
   }
 
+  /**
+    * 分析统计agent,ip,event,event_type出现的种类数
+    */
   def analysisTotal(): Unit = {
     val validRecords = getValidUserRecords
     val records = validRecords.select("agent", "ip", "event", "event_type")
@@ -113,7 +102,8 @@ object UserRecordAnalysis {
     val counts = records.selectExpr("count(1) as count")
     val finalTable = agents.crossJoin(events).crossJoin(event_types).crossJoin(ips).crossJoin(counts).createOrReplaceTempView("i")
 
-    spark.sql("select i.*, now() as create_time from i").write.mode(SaveMode.Append).jdbc(jdbcUrl, "bigfouranalysis.user_record_total", connectProperties)
+    spark.sql("select i.*, now() as create_time from i")
+      .write.mode(SaveMode.Append).jdbc(jdbcUrl, "bigfouranalysis.user_records_total", connectProperties)
 
 
 

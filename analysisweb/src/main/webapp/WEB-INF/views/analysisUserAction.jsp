@@ -23,7 +23,7 @@
 <body>
 
 <div id="container" style="min-width: 400px; max-width: 600px; height: 400px; margin: 0 auto"></div>
-
+${record.agent}, ${record.ip}, ${record.event}, ${record.event_type}, ${record.count}
 </body>
 <script type="text/javascript">
     $(function () {
