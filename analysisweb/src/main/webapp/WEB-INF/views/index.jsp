@@ -14,59 +14,55 @@
     <link rel="icon" href="http://resources.huangshihe.com/bigfour/logo_white.jpg">
     <script src="https://img.hcharts.cn/jquery/jquery-1.8.3.min.js"></script>
     <script src="https://img.hcharts.cn/highcharts/highcharts.js"></script>
-    <script src="https://img.hcharts.cn/highcharts/highcharts-more.js"></script>
+    <script src="https://img.hcharts.cn/highcharts/highcharts-3d.js"></script>
     <script src="https://img.hcharts.cn/highcharts/modules/exporting.js"></script>
     <script src="https://img.hcharts.cn/highcharts-plugins/highcharts-zh_CN.js"></script>
-    <script src="https://img.hcharts.cn/highcharts/themes/sand-signika.js"></script>
+
 </head>
 <body>
-    hello
-    <div id="container" style="min-width: 400px; max-width: 600px; height: 400px; margin: 0 auto"></div>
-
+<div id="container" style="min-width: 400px; max-width: 600px; height: 400px; margin: 0 auto"></div>
 </body>
 <script type="text/javascript">
     $(function () {
         $('#container').highcharts({
             chart: {
-                polar: true,
-                type: 'line'
+                type: 'pie',
+                options3d: {
+                    enabled: true,
+                    alpha: 45
+                }
             },
             title: {
-                <%--text: '${username}数据分析',--%>
-                text:'hello',
-                x: -80
+                text: '活跃用户分布图'
             },
-            pane: {
-                size: '80%'
+            subtitle: {
+                text: '最多显示前十(按住shift点击查看详情)'
             },
-            xAxis: {
-                categories: ['操作数', '1', '2', '3','4', '5'],
-                tickmarkPlacement: 'on',
-                lineWidth: 0
-            },
-            yAxis: {
-                gridLineInterpolation: 'polygon',
-                lineWidth: 0,
-                min: 0
-            },
-            tooltip: {
-                shared: true,
-                pointFormat: '<span style="color:{series.color}">{series.name}: <b>{point.y:,.0f}</b><br/>'
-            },
-            legend: {
-                align: 'right',
-                verticalAlign: 'top',
-                y: 70,
-                layout: 'vertical'
+            plotOptions: {
+                pie: {
+                    innerSize: 100,
+                    depth: 45
+                },
+                series: {
+                    cursor: 'pointer',
+                    events: {
+                        click: function (event) {
+                            if(event.shiftKey){
+                                alert(
+                                    this.name + ' clicked\n' +
+                                    'Alt: ' + this.data.name + '\n' +
+                                    'Control: ' + event.ctrlKey + '\n' +
+                                    'Meta: ' + event.metaKey + '\n' +
+                                    'Shift: ' + event.shiftKey
+                                );
+                            }
+                        }
+                    }
+                }
             },
             series: [{
-                name: '总数',
-                data: [43000, 19000, 60000, 35000, 17000, 10000],
-                pointPlacement: 'on'
-            }, {
-                name: '${username}',
-                data: [50000, 39000, 42000, 31000, 26000, 14000],
-                pointPlacement: 'on'
+                name: '操作记录',
+                data: ${records}
             }]
         });
     });

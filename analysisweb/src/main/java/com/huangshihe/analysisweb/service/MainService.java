@@ -72,7 +72,7 @@ public class MainService {
         } else {
             res.append("]");
         }
-        System.out.println(res.toString());
+//        System.out.println(res.toString());
         return res.toString();
     }
 }

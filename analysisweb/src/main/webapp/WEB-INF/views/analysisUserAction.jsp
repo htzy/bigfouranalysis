@@ -32,7 +32,7 @@
                 type: 'line'
             },
             title: {
-                text: '${record.username}数据统计',
+                text: '用户：${record.username} 的数据统计',
                 x: -80
             },
             pane: {

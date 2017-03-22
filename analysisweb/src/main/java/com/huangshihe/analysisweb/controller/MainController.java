@@ -11,7 +11,8 @@ public class MainController extends Controller {
     private MainService mainService = new MainService();
 
     public void index() {
-        setAttr("username", "huangshihe");
+        setAttr("records", mainService.getTopUserRecords());
+
         render("index.jsp");
     }
 
