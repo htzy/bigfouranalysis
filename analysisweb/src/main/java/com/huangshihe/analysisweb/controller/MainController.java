@@ -12,7 +12,7 @@ public class MainController extends Controller {
 
     public void index() {
         setAttr("records", mainService.getTopUserRecords());
-
+        setAttr("create_time", mainService.getAnalysisTime());
         render("index.jsp");
     }
 

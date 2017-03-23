@@ -4,6 +4,7 @@ import com.huangshihe.analysisweb.model.UserRecordPer;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -55,9 +56,9 @@ public class MainService {
     }
 
     public String getTopUserRecords() {
-        String userSql = " select username, count from user_records, "
+        String userSql = "select username, count from user_records, "
                 + " (select create_time from user_records order by create_time desc limit 1) as t"
-                + " where user_records.create_time=t.create_time order by count desc limit 10 ";
+                + " where user_records.create_time=t.create_time order by count desc limit 20 ";
         List<Record> recordList = Db.find(userSql);
         StringBuilder res = new StringBuilder("[");
         for (Record record : recordList) {
@@ -72,7 +73,12 @@ public class MainService {
         } else {
             res.append("]");
         }
-//        System.out.println(res.toString());
         return res.toString();
     }
+
+    public Date getAnalysisTime(){
+        String timeSql = "select * from user_records_total order by create_time desc";
+        return Db.findFirst(timeSql).getDate("create_time");
+    }
+
 }

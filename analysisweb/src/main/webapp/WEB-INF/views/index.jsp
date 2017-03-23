@@ -36,7 +36,7 @@
                 text: '活跃用户分布图'
             },
             subtitle: {
-                text: '最多显示前十(按住shift点击查看详情)'
+                text: '最多显示前二十(按住shift点击查看详情)，分析时间：${create_time}'
             },
             plotOptions: {
                 pie: {
