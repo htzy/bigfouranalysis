@@ -47,14 +47,8 @@
                     cursor: 'pointer',
                     events: {
                         click: function (event) {
-                            if(event.shiftKey){
-                                alert(
-                                    this.name + ' clicked\n' +
-                                    'Alt: ' + this.data.name + '\n' +
-                                    'Control: ' + event.ctrlKey + '\n' +
-                                    'Meta: ' + event.metaKey + '\n' +
-                                    'Shift: ' + event.shiftKey
-                                );
+                            if (event.shiftKey) {
+                                location.href = '${basePath}/analysisUserAction?username=' + event.point.name
                             }
                         }
                     }

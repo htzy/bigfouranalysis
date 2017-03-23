@@ -61,11 +61,11 @@ public class MainService {
         List<Record> recordList = Db.find(userSql);
         StringBuilder res = new StringBuilder("[");
         for (Record record : recordList) {
-            res.append("['");
+            res.append("{name:'");
             res.append(record.getStr("username"));
-            res.append("',");
+            res.append("',y:");
             res.append(record.getLong("count"));
-            res.append("],");
+            res.append("},");
         }
         if (res.lastIndexOf(",") > 0) {
             res = res.replace(res.length() - 1, res.length(), "]");

@@ -7,6 +7,7 @@ import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.druid.DruidPlugin;
 import com.jfinal.render.ViewType;
 import com.jfinal.template.Engine;
+import com.jfinal.ext.handler.ContextPathHandler;
 
 /**
  * Created by root on 3/21/17.
@@ -48,7 +49,7 @@ public class MainConfig extends JFinalConfig {
 
     @Override
     public void configHandler(Handlers handlers) {
-
+        handlers .add(new ContextPathHandler("basePath"));
     }
 
     public static DruidPlugin createDruidPlugin(){
